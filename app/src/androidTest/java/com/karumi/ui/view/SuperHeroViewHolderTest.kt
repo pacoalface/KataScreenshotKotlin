@@ -21,6 +21,16 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
 
+    @Test
+    fun showsAnyAvenger() {
+        val superHero = givenASuperHeroWithALongDescription()
+        val holder = givenASuperHeroViewHolder()
+
+        holder.render(superHero)
+
+        compareScreenshot(holder, R.dimen.super_hero_row_height)
+    }
+
     private fun givenASuperHeroViewHolder(): SuperHeroViewHolder {
         val context = getInstrumentation().targetContext
         val inflater = LayoutInflater.from(context)
@@ -35,7 +45,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
                 "ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in " +
                 "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " +
                 "proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        val isAvenger = false
+        val isAvenger = true
         return givenASuperHero(superHeroName, superHeroDescription, isAvenger)
     }
 
