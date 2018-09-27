@@ -29,16 +29,20 @@ class SuperHeroDetailPresenter(
     }
 
     private fun refreshSuperHeroes() = async {
+        try {
         val result = await { getSuperHeroByName(name) }
-        view?.hideLoading()
         view?.showSuperHero(result)
+        } catch (e: Exception) {
+            view?.showConnectionError()
+        }
+        view?.hideLoading()
     }
 
     interface View {
         fun close()
         fun showLoading()
         fun hideLoading()
-        fun showSuperHero(superHero: SuperHero)
+        fun showSuperHero(superHero: SuperHero?)
+        fun showConnectionError()
     }
-
 }

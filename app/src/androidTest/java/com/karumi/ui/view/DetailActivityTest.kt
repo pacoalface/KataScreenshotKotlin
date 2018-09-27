@@ -34,6 +34,30 @@ class DetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(SuperHeroDeta
         compareScreenshot(activity)
     }
 
+    @Test
+    fun showsSuperHeroNotFound() {
+        val bundle = givenBundle("Spiderman")
+        givenSuperHeroNotFound()
+
+        val activity = startActivity(bundle)
+
+        compareScreenshot(activity)
+    }
+
+    @Test
+    fun showsInternetError() {
+        val bundle = givenBundle("Spiderman")
+        givenNoInternetConnectionError()
+
+        val activity = startActivity(bundle)
+
+        compareScreenshot(activity)
+    }
+
+    private fun givenNoInternetConnectionError() {
+        on(repository.getByName("Spiderman")).thenThrow(Exception::class.java)
+    }
+
     private fun givenBundle(name: String) : Bundle{
         return Bundle().apply {
             putString(SuperHeroDetailActivity.SUPER_HERO_NAME_KEY, name)
@@ -44,6 +68,10 @@ class DetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(SuperHeroDeta
         val superHero = SuperHero("A long name to test the textview ellipsis or die trying", null, isAvenger,
             "lorem ipsum")
         on(repository.getByName("Spiderman")).thenReturn(superHero)
+    }
+
+    private fun givenSuperHeroNotFound() {
+        on(repository.getByName("Spiderman")).thenReturn(null)
     }
 
     private fun givenASuperHeroWithoutName(isAvenger : Boolean = false) {

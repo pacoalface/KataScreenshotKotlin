@@ -20,7 +20,8 @@ class SuperHeroRepository {
         return superHeroes
     }
 
-    fun getByName(name: String): SuperHero {
+    @Throws(Exception::class)
+    fun getByName(name: String): SuperHero? {
         waitABit()
         return superHeroes.first { it.name == name }
     }
@@ -34,6 +35,7 @@ class SuperHeroRepository {
 
     }
 
+    @Throws(Exception::class)
     private fun fakeData(): List<SuperHero> {
         return listOf(
             SuperHero(name = "Scarlet Witch",
@@ -136,5 +138,4 @@ class SuperHeroRepository {
 
         )
     }
-
 }

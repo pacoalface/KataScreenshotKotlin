@@ -49,12 +49,31 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         progress_bar.visibility = View.GONE
     }
 
-    override fun showSuperHero(superHero: SuperHero) {
-        tv_super_hero_name.text = superHero.name
-        tv_super_hero_description.text = superHero.description
-        iv_avengers_badge.visibility =
-            if (superHero.isAvenger) View.VISIBLE else View.GONE
-        iv_super_hero_photo.setImageBackground(superHero.photo)
+    override fun showSuperHero(superHero: SuperHero?) {
+        superHero?.let {
+            tv_super_hero_name.text = superHero.name
+            tv_super_hero_description.text = superHero.description
+            iv_avengers_badge.visibility =
+                if (superHero.isAvenger) View.VISIBLE else View.GONE
+            iv_super_hero_photo.setImageBackground(superHero.photo)
+        } ?: kotlin.run {
+            tv_error.visibility = View.VISIBLE
+            tv_empty_case.visibility = View.INVISIBLE
+            tv_super_hero_name.visibility = View.INVISIBLE
+            tv_super_hero_description.visibility = View.INVISIBLE
+            iv_avengers_badge.visibility = View.INVISIBLE
+            iv_super_hero_photo.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun showConnectionError() {
+        tv_error.visibility = View.INVISIBLE
+        tv_connection_error.visibility = View.VISIBLE
+        tv_empty_case.visibility = View.INVISIBLE
+        tv_super_hero_name.visibility = View.INVISIBLE
+        tv_super_hero_description.visibility = View.INVISIBLE
+        iv_avengers_badge.visibility = View.INVISIBLE
+        iv_super_hero_photo.visibility = View.INVISIBLE
     }
 
     override val activityModules = Module(allowSilentOverride = true) {
