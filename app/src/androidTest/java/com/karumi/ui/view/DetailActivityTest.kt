@@ -15,6 +15,16 @@ class DetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(SuperHeroDeta
     @Mock private lateinit var repository: SuperHeroRepository
 
     @Test
+    fun showsAvenger() {
+        val bundle = givenBundle("Spiderman")
+        givenAnAvenger()
+
+        val activity = startActivity(bundle)
+
+        compareScreenshot(activity)
+    }
+
+    @Test
     fun showsSuperHeroWithLongName() {
         val bundle = givenBundle("Spiderman")
         givenASuperHeroWithALongName()
@@ -74,23 +84,9 @@ class DetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(SuperHeroDeta
         on(repository.getByName("Spiderman")).thenReturn(null)
     }
 
-    private fun givenASuperHeroWithoutName(isAvenger : Boolean = false) {
-        val superHero = SuperHero("", null, isAvenger, "lorem ipsum")
-        on(repository.getAllSuperHeroes()).thenReturn(arrayListOf(superHero))
-    }
-
-    private fun givenThereAreSomeSuperHeroes(
-        numberOfSuperHeroes: Int = 1,
-        avengers: Boolean = false): List<SuperHero> {
-        val superHeroes = IntRange(0, numberOfSuperHeroes - 1).map { id ->
-            val superHeroName = "SuperHero - " + id
-            val superHeroDescription = "Description Super Hero - " + id
-            SuperHero(superHeroName, null, avengers,
-                superHeroDescription)
-        }
-
-        on(repository.getAllSuperHeroes()).thenReturn(superHeroes)
-        return superHeroes
+    private fun givenAnAvenger() {
+        val superHero = SuperHero("", null, true, "lorem ipsum")
+        on(repository.getByName("Spiderman")).thenReturn(superHero)
     }
 
     private fun givenThereAreNoSuperHeroes() {
